@@ -8,7 +8,7 @@ BrowsFile::BrowsFile()
 void BrowsFile::openFile()
 {
     setFileMode(QFileDialog::ExistingFile);
-    setNameFilter("Tous les fichiers (*.*)");
+    setNameFilter("Fichier txt (*.txt)");
     setViewMode(QFileDialog::List);
     setAcceptMode(QFileDialog::AcceptOpen);
     setLabelText(QFileDialog::LookIn, "Regardez dans :");
@@ -21,6 +21,7 @@ void BrowsFile::openFile()
     if(exec())
     {
         fileNames = selectedFiles();
+        qDebug() << fileNames;
         //lineEdit_chemin->setText(fileNames.at(0));
         fileNames.removeAt(0);
     }
