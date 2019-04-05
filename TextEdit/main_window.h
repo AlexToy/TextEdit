@@ -16,10 +16,10 @@ public:
     Main_window();
 
 private:
-    QWidget *windows;
     QHBoxLayout *layout;
     QPushButton *openBrows;
     BrowsFile *browsFile;
+    QWidget *space;
 
 };
 
