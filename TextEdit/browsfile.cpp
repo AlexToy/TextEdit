@@ -7,24 +7,44 @@ BrowsFile::BrowsFile()
 
 void BrowsFile::openFile()
 {
-    setFileMode(QFileDialog::ExistingFile);
-    setNameFilter("Fichier txt (*.txt)");
-    setViewMode(QFileDialog::List);
-    setAcceptMode(QFileDialog::AcceptOpen);
-    setLabelText(QFileDialog::LookIn, "Regardez dans :");
-    setLabelText(QFileDialog::FileName, "Nom de fichier :");
-    setLabelText(QFileDialog::FileType, "Type de fichiers :");
-    setLabelText(QFileDialog::Accept, "Sélectionner");
-    setLabelText(QFileDialog::Reject, "Annuler");
-    QStringList fileNames;
+    QString path_file = QFileDialog::getOpenFileName(this,"Open file","/home","Text(*.txt)");
+    qDebug() << "File's path" << path_file;
 
-    if(exec())
+    editFile(path_file);
+}
+
+void BrowsFile::editFile(QString path_file)
+{
+    QString buffer;
+    unsigned short line_nb = 0;
+    QString line;
+    QFile file(path_file);
+    file.open(QIODevice::ReadWrite | QIODevice::Text);
+    QTextStream flux(&file);
+    flux.setCodec("UTF-16");
+
+    while(!flux.atEnd())
     {
-        fileNames = selectedFiles();
-        qDebug() << fileNames;
-        //lineEdit_chemin->setText(fileNames.at(0));
-        fileNames.removeAt(0);
+        line_nb ++;
+        line = flux.readLine();
+        line = delete_charactere(line,"/");
+        buffer += line + "\n";
     }
-    else
-        reject();
+    file.resize(0);  //delete the original file
+    flux << buffer;  //write the new data in the file
+    file.close();
+}
+
+QString BrowsFile::delete_charactere(QString line, QString character)
+{
+    unsigned short i, pos_charactere;
+    for(i=0; line[i] != "\t"; i++)
+    {
+        if(line[i] == character)
+        {
+            for(pos_charactere=i; line[pos_charactere] != 0; pos_charactere++)
+                line[pos_charactere] = line[pos_charactere + 1];
+        }
+    }
+    return line;
 }

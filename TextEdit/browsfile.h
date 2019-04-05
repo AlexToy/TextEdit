@@ -14,7 +14,8 @@ public:
 
 public slots:
     void openFile();
-
+    void editFile(QString path_file);
+    QString delete_charactere(QString line, QString character);
 };
 
 #endif // BROWSFILE_H

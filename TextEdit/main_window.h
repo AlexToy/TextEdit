@@ -14,12 +14,12 @@ class Main_window : public QMainWindow
     Q_OBJECT
 public:
     Main_window();
-    QPushButton *openBrows;
-    BrowsFile *browsFile;
 
 private:
     QWidget *windows;
     QHBoxLayout *layout;
+    QPushButton *openBrows;
+    BrowsFile *browsFile;
 
 };
 
